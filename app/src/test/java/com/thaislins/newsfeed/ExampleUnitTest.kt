@@ -1,4 +1,4 @@
-package com.example.newsfeed
+package com.thaislins.newsfeed
 
 import org.junit.Test
 
