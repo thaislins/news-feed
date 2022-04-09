@@ -1,53 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
-<!--    <data>-->
-
-<!--        <variable-->
-<!--            name="film"-->
-<!--            type="com.thaislins.filmguide.modules.home.model.Film" />-->
-<!--    </data>-->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <!-- Image -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="194dp"
-        android:scaleType="centerCrop"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+            <!-- Image -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="194dp"
+                android:contentDescription="@string/image_description"
+                android:scaleType="centerCrop" />
 
-    <!-- Headline and date -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/date"
-        android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="?android:attr/textColorSecondary"
-        />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-    </LinearLayout>
-    </LinearLayout>
+                <!-- Headline and date -->
+                <TextView
+                    android:id="@+id/newsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title"
+                    android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                <TextView
+                    android:id="@+id/newsDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/date"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?android:attr/textColorSecondary" />
+
+            </LinearLayout>
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-</layout>
+</LinearLayout>

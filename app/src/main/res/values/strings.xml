@@ -2,5 +2,6 @@
     <string name="app_name">newsfeed</string>
 
     <string name="title">Title</string>
+    <string name="image_description">Image Description</string>
     <string name="date">03/08/2022</string>
 </resources>
