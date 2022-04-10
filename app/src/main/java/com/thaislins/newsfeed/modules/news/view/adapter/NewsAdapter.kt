@@ -1,16 +1,19 @@
 package com.thaislins.newsfeed.modules.news.view.adapter
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.newsfeed.R
 import com.example.newsfeed.databinding.ItemNewsBinding
 import com.thaislins.newsfeed.modules.news.model.News
 
-class NewsAdapter(private var news: ArrayList<News?>) :
+
+class NewsAdapter(private var news: ArrayList<News?>, private var context: Context) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsAdapter.ViewHolder {
@@ -22,6 +25,18 @@ class NewsAdapter(private var news: ArrayList<News?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         news[position]?.let { holder.bind(it) }
+
+        val options: RequestOptions =
+            RequestOptions().placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+
+        holder.newsImage?.let {
+            Glide.with(context)
+                .load(news[position]?.imagePath)
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
+                .apply(options)
+                .into(it)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -29,6 +44,8 @@ class NewsAdapter(private var news: ArrayList<News?>) :
     }
 
     class ViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
+        internal val newsImage: ImageView? = itemView.findViewById(R.id.newsImage)
+
         fun bind(news: News) {
             binding.newsTitle.text = news.title
             binding.newsDate.text = news.date
