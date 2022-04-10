@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-class News(
-    val id: Int,
-    val title: String,
-    val updatedAt: String,
-    val typeAttributes: NewsTypeAttribute?
+class News {
+    val id: Int = 0
+    val title: String = ""
+    val updatedAt: String = ""
+    val typeAttributes: NewsTypeAttribute? = null
     //val imagePath: String
-)
+}
