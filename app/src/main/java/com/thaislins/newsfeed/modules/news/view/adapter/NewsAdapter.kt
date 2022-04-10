@@ -31,7 +31,7 @@ class NewsAdapter(private var news: ArrayList<News?>, private var context: Conte
 
         holder.newsImage?.let {
             Glide.with(context)
-                .load(news[position]?.imagePath)
+                .load(news[position]?.typeAttributes?.imageLarge)
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
                 .apply(options)
                 .into(it)
@@ -47,7 +47,7 @@ class NewsAdapter(private var news: ArrayList<News?>, private var context: Conte
 
         fun bind(news: News) {
             binding.newsTitle.text = news.title
-            binding.newsDate.text = news.date
+            binding.newsDate.text = news.updatedAt
         }
     }
 }
