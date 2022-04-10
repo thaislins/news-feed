@@ -1,4 +1,4 @@
-package com.thaislins.newsfeed.core
+package com.thaislins.newsfeed.utils
 
 import android.content.Context
 import com.bumptech.glide.GlideBuilder

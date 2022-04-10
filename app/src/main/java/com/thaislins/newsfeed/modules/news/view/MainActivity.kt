@@ -1,18 +1,17 @@
-package com.thaislins.newsfeed.app
+package com.thaislins.newsfeed.modules.news.view
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thaislins.newsfeed.databinding.ActivityMainBinding
-import com.thaislins.newsfeed.modules.news.model.News
 import com.thaislins.newsfeed.modules.news.view.adapter.NewsAdapter
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val newsViewModel: NewsViewModel by viewModels()
+    private val newsViewModel: NewsViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -23,14 +22,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         binding.rvNews.layoutManager = LinearLayoutManager(this)
 
-        newsViewModel.loadNewsList()
-
-        // Setup view model news observer
-        val newsObserver = Observer<List<News>?> { newsList ->
-            val adapter = NewsAdapter(newsList, view.context)
-            binding.rvNews.adapter = adapter
-        }
-
-        newsViewModel.newsList.observe(this, newsObserver)
+        newsViewModel.newsList.observe(this, Observer {
+            if (it != null) {
+                val adapter = NewsAdapter(it, view.context)
+                binding.rvNews.adapter = adapter
+            }
+        })
     }
 }

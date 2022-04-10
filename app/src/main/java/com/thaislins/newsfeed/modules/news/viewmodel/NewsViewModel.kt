@@ -7,15 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thaislins.newsfeed.modules.news.model.News
 import com.thaislins.newsfeed.modules.news.model.repository.NewsRepository
-import com.thaislins.newsfeed.service.ApiModule
 import kotlinx.coroutines.launch
 
-class NewsViewModel() : ViewModel() {
+class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
 
-    val service = ApiModule.getNewsService()
-    private val repository = NewsRepository(service)
     private val _newsList = MutableLiveData<List<News>?>()
     val newsList: LiveData<List<News>?> = _newsList
+
+    init {
+        loadNewsList()
+    }
 
     fun loadNewsList() {
         viewModelScope.launch {
