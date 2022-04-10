@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.example.newsfeed.R
-import com.example.newsfeed.databinding.ItemNewsBinding
+import com.thaislins.newsfeed.R
+import com.thaislins.newsfeed.databinding.ItemNewsBinding
 import com.thaislins.newsfeed.modules.news.model.News
-
 
 class NewsAdapter(private var news: ArrayList<News?>, private var context: Context) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {

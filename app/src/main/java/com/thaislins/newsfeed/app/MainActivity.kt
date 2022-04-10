@@ -3,7 +3,7 @@ package com.thaislins.newsfeed.app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.newsfeed.databinding.ActivityMainBinding
+import com.thaislins.newsfeed.databinding.ActivityMainBinding
 import com.thaislins.newsfeed.modules.news.model.News
 import com.thaislins.newsfeed.modules.news.view.adapter.NewsAdapter
 
