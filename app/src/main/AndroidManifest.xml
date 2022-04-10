@@ -11,9 +11,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name="com.thaislins.newsfeed.app.NewsFeedApp"
         android:theme="@style/Theme.Newsfeed">
         <activity
-            android:name="com.thaislins.newsfeed.app.MainActivity"
+            android:name=".modules.news.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
