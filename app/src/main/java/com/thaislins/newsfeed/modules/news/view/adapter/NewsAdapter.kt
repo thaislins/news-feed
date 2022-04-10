@@ -12,7 +12,7 @@ import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ItemNewsBinding
 import com.thaislins.newsfeed.modules.news.model.News
 
-class NewsAdapter(private var news: ArrayList<News?>, private var context: Context) :
+class NewsAdapter(private var newsList: List<News?>, private var context: Context) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsAdapter.ViewHolder {
@@ -23,7 +23,7 @@ class NewsAdapter(private var news: ArrayList<News?>, private var context: Conte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        news[position]?.let { holder.bind(it) }
+        newsList[position]?.let { holder.bind(it) }
 
         val options: RequestOptions =
             RequestOptions().placeholder(R.drawable.ic_launcher_background)
@@ -31,7 +31,7 @@ class NewsAdapter(private var news: ArrayList<News?>, private var context: Conte
 
         holder.newsImage?.let {
             Glide.with(context)
-                .load(news[position]?.typeAttributes?.imageLarge)
+                .load(newsList[position]?.typeAttributes?.imageLarge)
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
                 .apply(options)
                 .into(it)
@@ -39,7 +39,7 @@ class NewsAdapter(private var news: ArrayList<News?>, private var context: Conte
     }
 
     override fun getItemCount(): Int {
-        return news.size
+        return newsList.size
     }
 
     class ViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
