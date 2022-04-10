@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 class News {
     val id: Int = 0
     val title: String = ""
-    val updatedAt: String = ""
+    val publishedAt: String = ""
     val typeAttributes: NewsTypeAttribute? = null
-    //val imagePath: String
 }

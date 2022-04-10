@@ -11,6 +11,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ItemNewsBinding
 import com.thaislins.newsfeed.modules.news.model.News
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class NewsAdapter(private var newsList: List<News?>, private var context: Context) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
@@ -46,8 +49,11 @@ class NewsAdapter(private var newsList: List<News?>, private var context: Contex
         internal val newsImage: ImageView? = itemView.findViewById(R.id.newsImage)
 
         fun bind(news: News) {
+            val sdf = SimpleDateFormat("MMMM dd, yyyy", Locale.CANADA)
+            val date = Date(news.publishedAt.toLong())
+
             binding.newsTitle.text = news.title
-            binding.newsDate.text = news.updatedAt
+            binding.newsDate.text = sdf.format(date)
         }
     }
 }
