@@ -1,13 +1,10 @@
 package com.thaislins.newsfeed.modules.news.view
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ActivityMainBinding
@@ -46,11 +43,16 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.filter -> {
             if (newsViewModel.newsList.value != null) {
-                val typeList: List<String> = newsViewModel.newsList.value!!.map { it.type }
+                val typeList = ArrayList<String>()
+                typeList.add("all")
+                typeList.addAll(newsViewModel.newsList.value!!.map { it.type })
                 val builder = AlertDialog.Builder(this);
                 builder.setTitle("Filter news by:")
-                    .setSingleChoiceItems(typeList.distinct().toTypedArray(), -1) { dialogInterface, i ->
-                        Log.d("TYPE", typeList[i])
+                    .setSingleChoiceItems(
+                        typeList.distinct().toTypedArray(),
+                        -1
+                    ) { dialogInterface, i ->
+                        newsViewModel.filterNewsList(typeList[i])
                         dialogInterface.dismiss()
                     }
 
@@ -65,8 +67,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         else -> {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
     }
