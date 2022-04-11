@@ -17,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
 
     private val newsViewModel: NewsViewModel by viewModel()
+    val typeList = ArrayList<String>()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -32,13 +33,17 @@ class MainActivity : AppCompatActivity() {
         progressdialog.setCancelable(false).setView(R.layout.layout_loading)
         val dialog = progressdialog.create()
 
+        //Load data
         newsViewModel.loadNewsList()
         dialog.show()
 
-        val newsListObserver = Observer<List<News>?> {
-            if (it != null) {
-                val adapter = NewsAdapter(it, view.context)
+        val newsListObserver = Observer<List<News>?> { list ->
+            if (list != null) {
+                val adapter = NewsAdapter(list, view.context)
                 binding.rvNews.adapter = adapter
+                //Add to typeList
+                typeList.add("all")
+                typeList.addAll(list.map { it.type })
                 dialog.dismiss()
             }
         }
@@ -56,9 +61,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.filter -> {
             if (newsViewModel.newsList.value != null) {
-                val typeList = ArrayList<String>()
-                typeList.add("all")
-                typeList.addAll(newsViewModel.newsList.value!!.map { it.type })
                 val builder = AlertDialog.Builder(this);
                 builder.setTitle("Filter news by:")
                     .setSingleChoiceItems(
@@ -68,7 +70,6 @@ class MainActivity : AppCompatActivity() {
                         newsViewModel.filterNewsList(typeList[i])
                         dialogInterface.dismiss()
                     }
-
 
                 builder.setNeutralButton("Cancel") { dialog, which ->
                     dialog.cancel()

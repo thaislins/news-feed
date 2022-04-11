@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
 
     private val _newsList = MutableLiveData<List<News>?>()
-    private var temp = MutableLiveData<List<News>?>()
-    val newsList: LiveData<List<News>?> = _newsList
+    private var _temp = MutableLiveData<List<News>?>()
+    val newsList: LiveData<List<News>?> = _temp
 
     fun loadNewsList() {
         viewModelScope.launch {
             try {
-                _newsList.value = repository.getNewsList()
-                temp.value = _newsList.value
+                _temp.value = repository.getNewsList()
+                _newsList.value = _temp.value
             } catch (ex: Exception) {
                 ex.message?.let { Log.e("Error", it) }
             }
@@ -28,9 +28,9 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
 
     fun filterNewsList(type: String) {
         if (type == "all") {
-            _newsList.value = temp.value
+            _temp.value = _newsList.value
         } else {
-            _newsList.value =
+            _temp.value =
                 _newsList.value?.filter { it.type == type }
         }
     }
