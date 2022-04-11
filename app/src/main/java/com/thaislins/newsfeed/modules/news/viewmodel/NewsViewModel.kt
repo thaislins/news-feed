@@ -15,10 +15,6 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
     private var temp = MutableLiveData<List<News>?>()
     val newsList: LiveData<List<News>?> = _newsList
 
-    init {
-        loadNewsList()
-    }
-
     fun loadNewsList() {
         viewModelScope.launch {
             try {
@@ -35,7 +31,7 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
             _newsList.value = temp.value
         } else {
             _newsList.value =
-                _newsList.value?.filter { it.type == type}
+                _newsList.value?.filter { it.type == type }
         }
     }
 }

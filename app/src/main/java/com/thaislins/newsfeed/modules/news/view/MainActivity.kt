@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ActivityMainBinding
+import com.thaislins.newsfeed.modules.news.model.News
 import com.thaislins.newsfeed.modules.news.view.adapter.NewsAdapter
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,12 +27,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         binding.rvNews.layoutManager = LinearLayoutManager(this)
 
-        newsViewModel.newsList.observe(this, {
+        //Create progress bar dialog
+        val progressdialog = AlertDialog.Builder(this)
+        progressdialog.setCancelable(false).setView(R.layout.layout_loading)
+        val dialog = progressdialog.create()
+
+        newsViewModel.loadNewsList()
+        dialog.show()
+
+        val newsListObserver = Observer<List<News>?> {
             if (it != null) {
                 val adapter = NewsAdapter(it, view.context)
                 binding.rvNews.adapter = adapter
+                dialog.dismiss()
             }
-        })
+        }
+
+        newsViewModel.newsList.observe(this, newsListObserver)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
