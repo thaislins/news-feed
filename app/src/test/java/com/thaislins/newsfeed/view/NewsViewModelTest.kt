@@ -23,11 +23,10 @@ import org.mockito.junit.MockitoJUnit
 class NewsViewModelTest : KoinTest {
 
     lateinit var viewModel: NewsViewModel
-    lateinit var newsRepository: NewsRepository
     lateinit var testList: List<News>
 
     @Mock
-    lateinit var newsService: NewsService
+    lateinit var newsRepository: NewsRepository
 
     @Mock
     lateinit var listObserver: Observer<NewsResource>
@@ -46,7 +45,6 @@ class NewsViewModelTest : KoinTest {
     @Before
     fun before() {
         Dispatchers.setMain(mainThreadSurrogate)
-        newsRepository = NewsRepository(newsService)
         viewModel = NewsViewModel(newsRepository)
         viewModel.newsList.observeForever(listObserver)
 
@@ -67,7 +65,7 @@ class NewsViewModelTest : KoinTest {
 
     @Test
     fun testApiFetchNull() = runBlocking {
-        `when`(newsService.getNewsList()).thenReturn(null)
+        `when`(newsRepository.getNewsList()).thenReturn(null)
         viewModel.loadNewsList()
         delay(10)
         assertTrue(viewModel.newsList.value?.hasError == false)
@@ -77,7 +75,7 @@ class NewsViewModelTest : KoinTest {
 
     @Test
     fun testApiFetchError() = runBlocking {
-        `when`(newsService.getNewsList()).thenThrow(RuntimeException("Api error"))
+        `when`(newsRepository.getNewsList()).thenThrow(RuntimeException("Api error"))
         viewModel.loadNewsList()
         delay(10)
         assertTrue(viewModel.newsList.value?.hasError == true)
@@ -87,7 +85,7 @@ class NewsViewModelTest : KoinTest {
 
     @Test
     fun testApiFetchSuccess() = runBlocking {
-        `when`(newsService.getNewsList()).thenReturn(emptyList())
+        `when`(newsRepository.getNewsList()).thenReturn(emptyList())
         viewModel.loadNewsList()
         delay(10)
         assertTrue(viewModel.newsList.value?.hasError == false)
@@ -97,7 +95,7 @@ class NewsViewModelTest : KoinTest {
 
     @Test
     fun testFilterAllNewsList() = runBlocking {
-        `when`(newsService.getNewsList()).thenReturn(testList)
+        `when`(newsRepository.getNewsList()).thenReturn(testList)
         viewModel.loadNewsList()
         delay(10)
         viewModel.filterNewsList("all")
@@ -106,7 +104,7 @@ class NewsViewModelTest : KoinTest {
 
     @Test
     fun testFilterTypeNewsList() = runBlocking {
-        `when`(newsService.getNewsList()).thenReturn(testList)
+        `when`(newsRepository.getNewsList()).thenReturn(testList)
         viewModel.loadNewsList()
         delay(10)
         viewModel.filterNewsList("stub")
