@@ -4,51 +4,85 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ActivityMainBinding
 import com.thaislins.newsfeed.modules.news.model.News
+import com.thaislins.newsfeed.modules.news.model.Resource
 import com.thaislins.newsfeed.modules.news.view.adapter.NewsAdapter
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsViewModel
+import com.thaislins.newsfeed.utils.CheckNetworkConnection
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private val newsViewModel: NewsViewModel by viewModel()
-    val typeList = ArrayList<String>()
+    private lateinit var checkNetworkConnection: CheckNetworkConnection
+    val typeList = ArrayList<String>() //List of news type
+    private lateinit var dialog: AlertDialog
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         binding.rvNews.layoutManager = LinearLayoutManager(this)
 
         //Create progress bar dialog
-        val progressdialog = AlertDialog.Builder(this)
-        progressdialog.setCancelable(false).setView(R.layout.layout_loading)
-        val dialog = progressdialog.create()
+        val progressDialog = AlertDialog.Builder(this)
+        progressDialog.setCancelable(false).setView(R.layout.layout_loading)
+        dialog = progressDialog.create()
 
-        //Load data
+        addNewsObserver() //Create observer for news list
+        callNetworkConnection() //Creates observer for network connection and shows dialog when disconnected
+        loadNewsList()
+    }
+
+    fun loadNewsList() {
         newsViewModel.loadNewsList()
         dialog.show()
+    }
 
-        val newsListObserver = Observer<List<News>?> { list ->
-            if (list != null) {
-                val adapter = NewsAdapter(list, view.context)
+    fun addNewsObserver() {
+        val newsListObserver = Observer<Resource<List<News>?>> { list ->
+            dialog.dismiss()
+            if (list?.data != null) {
+                binding.emptyView.visibility = View.INVISIBLE
+                val adapter = NewsAdapter(list.data, this)
                 binding.rvNews.adapter = adapter
                 //Add to typeList
                 typeList.add("all")
-                typeList.addAll(list.map { it.type })
-                dialog.dismiss()
+                typeList.addAll(list.data.map { it.type })
+            } else {
+                binding.emptyView.visibility = View.VISIBLE
             }
         }
 
         newsViewModel.newsList.observe(this, newsListObserver)
+    }
+
+    private fun callNetworkConnection() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("No Internet Connection")
+        builder.setMessage("Make sure you're connected to a Wi-Fi or mobile network and try again")
+        val alertDialog = builder.create()
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+
+        checkNetworkConnection = CheckNetworkConnection(application)
+        checkNetworkConnection.observe(this, { isConnected ->
+            if (isConnected) {
+                alertDialog.dismiss()
+            } else {
+                alertDialog.show()
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -71,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                         dialogInterface.dismiss()
                     }
 
-                builder.setNeutralButton("Cancel") { dialog, which ->
+                builder.setNeutralButton("Cancel") { dialog, _ ->
                     dialog.cancel()
                 }
 
