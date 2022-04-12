@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonInclude
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-class News {
-    val id: Int = 0
-    val title: String = ""
-    val updatedAt: Long = 0
-    val type: String = ""
-    val typeAttributes: NewsTypeAttribute? = null
+data class News(
+    val id: Int,
+    val title: String,
+    val updatedAt: Long,
+    val type: String,
+    val typeAttributes: NewsTypeAttribute?
+) {
+    constructor() : this(0, "", 0, "", null)
 }
