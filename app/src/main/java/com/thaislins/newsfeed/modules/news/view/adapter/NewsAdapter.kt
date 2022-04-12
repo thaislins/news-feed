@@ -31,8 +31,8 @@ class NewsAdapter(private var newsList: List<News?>, private var context: Contex
         newsList[position]?.let { holder.bind(it) }
 
         val options: RequestOptions =
-            RequestOptions().placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+            RequestOptions().placeholder(R.drawable.no_image)
+                .error(R.drawable.no_image)
 
         holder.newsImage?.let {
             Glide.with(context)
