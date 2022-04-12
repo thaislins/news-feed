@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,12 +28,34 @@ class NewsAdapter(private var newsList: List<News?>, private var context: Contex
         return ViewHolder(binding)
     }
 
+    fun formatDate(updatedAt: Long): String {
+        val sdf = SimpleDateFormat("MMMM dd, yyyy - hh:mm:ss", Locale.CANADA)
+
+        val newsDate = Date(updatedAt).toInstant()
+        val now: Instant = Instant.now()
+        val twelveHoursEarlier = now.minus(12, ChronoUnit.HOURS)
+        val within12Hours = !newsDate.isBefore(twelveHoursEarlier) && newsDate.isBefore(now)
+
+        return if (within12Hours) {
+            val d = Duration.between(newsDate, now)
+            if (d.toHours() == 0L) {
+                context.resources.getQuantityString(R.plurals.date_minutes, d.toMinutes().toInt(), d.toMinutes().toInt())
+            } else {
+                context.resources.getQuantityString(R.plurals.date_hours, d.toHours().toInt(), d.toHours().toInt())
+            }
+        } else {
+            sdf.format(Date(updatedAt))
+        }
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         newsList[position]?.let { holder.bind(it) }
 
         val options: RequestOptions =
             RequestOptions().placeholder(R.drawable.no_image)
                 .error(R.drawable.no_image)
+
+        holder.newsDate?.text = newsList[position]?.updatedAt?.let { formatDate(it) }
 
         holder.newsImage?.let {
             Glide.with(context)
@@ -49,32 +72,9 @@ class NewsAdapter(private var newsList: List<News?>, private var context: Contex
 
     class ViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         internal val newsImage: ImageView? = itemView.findViewById(R.id.newsImage)
+        internal val newsDate: TextView? = itemView.findViewById(R.id.newsDate)
 
         fun bind(news: News) {
-            val sdf = SimpleDateFormat("MMMM dd, yyyy - hh:mm:ss", Locale.CANADA)
-            val date = Date(news.updatedAt)
-
-            val then: Instant = date.toInstant()
-            val now: Instant = Instant.now()
-            val twelveHoursEarlier = now.minus(12, ChronoUnit.HOURS)
-            val within12Hours = !then.isBefore(twelveHoursEarlier) && then.isBefore(now)
-
-            val formattedDate = sdf.format(date)
-            if (!within12Hours) {
-                binding.newsDate.text = sdf.format(date)
-            } else {
-                val oneHourEarlier = now.minus(1, ChronoUnit.HOURS)
-                val withinOneHour = !then.isBefore(oneHourEarlier) && then.isBefore(now)
-                val d = Duration.between(then, now)
-
-                if (d.toHours() == 0L) {
-                    binding.newsDate.text =
-                        d.toMinutes().toString() + " minutes"
-                } else {
-                    binding.newsDate.text =
-                        d.toHours().toString() + " hours"
-                }
-            }
             binding.newsTitle.text = news.title
         }
     }

@@ -1,9 +1,19 @@
 <resources>
     <string name="app_name">newsfeed</string>
 
-    <string name="title">Title</string>
     <string name="image_description">Image Description</string>
-    <string name="date">03/08/2022</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading&#8230;</string>
+
+    <plurals name="date_minutes">
+        <item quantity="zero">Now</item>
+        <item quantity="one">%d minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+
+    <plurals name="date_hours">
+        <item quantity="one">An hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+
     <string name="no_news_items_found">No News Items Found</string>
 </resources>
