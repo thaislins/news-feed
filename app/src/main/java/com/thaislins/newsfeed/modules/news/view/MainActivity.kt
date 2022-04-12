@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
 
     private val newsViewModel: NewsViewModel by viewModel()
     private lateinit var checkNetworkConnection: CheckNetworkConnection
-    val typeList = ArrayList<String>() //List of news type
     private lateinit var dialog: AlertDialog
 
     private lateinit var binding: ActivityMainBinding
+    private var selectedFilterTypeItem: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,24 +39,25 @@ class MainActivity : AppCompatActivity() {
 
         addNewsObserver() //Create observer for news list
         callNetworkConnection() //Creates observer for network connection and shows dialog when disconnected
-        loadNewsList()
-    }
-
-    fun loadNewsList() {
+        addSwipeRefreshLayout()
         newsViewModel.loadNewsList()
         dialog.show()
     }
 
-    fun addNewsObserver() {
+    private fun addSwipeRefreshLayout() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            newsViewModel.loadNewsList()
+        }
+    }
+
+    private fun addNewsObserver() {
         val newsListObserver = Observer<Resource<List<News>?>> { list ->
             dialog.dismiss()
+            binding.swipeRefreshLayout.isRefreshing = false
             if (list?.data != null) {
                 binding.emptyView.visibility = View.INVISIBLE
                 val adapter = NewsAdapter(list.data, this)
                 binding.rvNews.adapter = adapter
-                //Add to typeList
-                typeList.add("all")
-                typeList.addAll(list.data.map { it.type })
             } else {
                 binding.emptyView.visibility = View.VISIBLE
             }
@@ -96,12 +97,17 @@ class MainActivity : AppCompatActivity() {
         R.id.filter -> {
             if (newsViewModel.newsList.value != null) {
                 val builder = AlertDialog.Builder(this);
+                val filteredTypeList = newsViewModel.filteredTypeList
+                if (selectedFilterTypeItem < 0 && filteredTypeList.isNotEmpty()) {
+                    selectedFilterTypeItem = 0
+                }
                 builder.setTitle("Filter news by:")
                     .setSingleChoiceItems(
-                        typeList.distinct().toTypedArray(),
-                        -1
+                        filteredTypeList.toTypedArray(),
+                        selectedFilterTypeItem
                     ) { dialogInterface, i ->
-                        newsViewModel.filterNewsList(typeList[i])
+                        newsViewModel.filterNewsList(filteredTypeList[i])
+                        selectedFilterTypeItem = i
                         dialogInterface.dismiss()
                     }
 
