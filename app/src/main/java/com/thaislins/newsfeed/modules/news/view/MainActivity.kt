@@ -8,11 +8,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.load.engine.Resource
 import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ActivityMainBinding
 import com.thaislins.newsfeed.modules.news.model.News
-import com.thaislins.newsfeed.modules.news.model.Resource
 import com.thaislins.newsfeed.modules.news.view.adapter.NewsAdapter
+import com.thaislins.newsfeed.modules.news.viewmodel.NewsResource
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsViewModel
 import com.thaislins.newsfeed.utils.CheckNetworkConnection
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,12 +52,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addNewsObserver() {
-        val newsListObserver = Observer<Resource<List<News>?>> { list ->
+        val newsListObserver = Observer<NewsResource> {
             dialog.dismiss()
             binding.swipeRefreshLayout.isRefreshing = false
-            if (list?.data != null) {
+            if (it?.data != null) {
                 binding.emptyView.visibility = View.INVISIBLE
-                val adapter = NewsAdapter(list.data, this)
+                val adapter = NewsAdapter(it.data, this)
                 binding.rvNews.adapter = adapter
             } else {
                 binding.emptyView.visibility = View.VISIBLE
