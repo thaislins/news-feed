@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 class News {
     val id: Int = 0
     val title: String = ""
-    val publishedAt: String = ""
+    val updatedAt: Long = 0
     val type: String = ""
     val typeAttributes: NewsTypeAttribute? = null
 }

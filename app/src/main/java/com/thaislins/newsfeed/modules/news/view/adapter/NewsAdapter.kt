@@ -12,8 +12,10 @@ import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ItemNewsBinding
 import com.thaislins.newsfeed.modules.news.model.News
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.time.Duration
+import java.time.Instant
+import java.time.temporal.ChronoUnit
+import java.util.*
 
 class NewsAdapter(private var newsList: List<News?>, private var context: Context) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
@@ -49,11 +51,31 @@ class NewsAdapter(private var newsList: List<News?>, private var context: Contex
         internal val newsImage: ImageView? = itemView.findViewById(R.id.newsImage)
 
         fun bind(news: News) {
-            val sdf = SimpleDateFormat("MMMM dd, yyyy", Locale.CANADA)
-            val date = Date(news.publishedAt.toLong())
+            val sdf = SimpleDateFormat("MMMM dd, yyyy - hh:mm:ss", Locale.CANADA)
+            val date = Date(news.updatedAt)
 
+            val then: Instant = date.toInstant()
+            val now: Instant = Instant.now()
+            val twelveHoursEarlier = now.minus(12, ChronoUnit.HOURS)
+            val within12Hours = !then.isBefore(twelveHoursEarlier) && then.isBefore(now)
+
+            val formattedDate = sdf.format(date)
+            if (!within12Hours) {
+                binding.newsDate.text = sdf.format(date)
+            } else {
+                val oneHourEarlier = now.minus(1, ChronoUnit.HOURS)
+                val withinOneHour = !then.isBefore(oneHourEarlier) && then.isBefore(now)
+                val d = Duration.between(then, now)
+
+                if (d.toHours() == 0L) {
+                    binding.newsDate.text =
+                        d.toMinutes().toString() + " minutes"
+                } else {
+                    binding.newsDate.text =
+                        d.toHours().toString() + " hours"
+                }
+            }
             binding.newsTitle.text = news.title
-            binding.newsDate.text = sdf.format(date)
         }
     }
 }
