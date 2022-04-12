@@ -114,4 +114,13 @@ class NewsViewModelTest : KoinTest {
         )
         assertEquals(filteredByType, viewModel.newsList.value?.data);
     }
+
+    @Test
+    fun testInvalidFilterTypeNewsList() = runBlocking {
+        `when`(newsRepository.getNewsList()).thenReturn(testList)
+        viewModel.loadNewsList()
+        delay(10)
+        viewModel.filterNewsList("invalid")
+        assertEquals(emptyList<News>(), viewModel.newsList.value?.data);
+    }
 }
