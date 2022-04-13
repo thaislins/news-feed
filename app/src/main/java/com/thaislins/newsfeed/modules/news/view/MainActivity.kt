@@ -8,10 +8,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.engine.Resource
 import com.thaislins.newsfeed.R
 import com.thaislins.newsfeed.databinding.ActivityMainBinding
-import com.thaislins.newsfeed.modules.news.model.News
 import com.thaislins.newsfeed.modules.news.view.adapter.NewsAdapter
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsResource
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsViewModel
@@ -55,11 +53,13 @@ class MainActivity : AppCompatActivity() {
         val newsListObserver = Observer<NewsResource> {
             dialog.dismiss()
             binding.swipeRefreshLayout.isRefreshing = false
-            if (it?.data != null) {
-                binding.emptyView.visibility = View.INVISIBLE
+            if (it?.data?.isNotEmpty() == true) {
+                binding.emptyView.visibility = View.GONE
+                binding.rvNews.visibility = View.VISIBLE
                 val adapter = NewsAdapter(it.data, this)
                 binding.rvNews.adapter = adapter
             } else {
+                binding.rvNews.visibility = View.GONE
                 binding.emptyView.visibility = View.VISIBLE
             }
         }
