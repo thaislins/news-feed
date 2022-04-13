@@ -63,7 +63,7 @@ class NewsViewModelTest : KoinTest {
     }
 
     @Test
-    fun testApiFetchNull() = runBlocking {
+    fun testLoadNewsListNull() = runBlocking {
         `when`(newsRepository.getNewsList()).thenReturn(null)
         viewModel.loadNewsList()
         delay(50)
@@ -73,7 +73,7 @@ class NewsViewModelTest : KoinTest {
     }
 
     @Test
-    fun testApiFetchError() = runBlocking {
+    fun testLoadNewsListError() = runBlocking {
         `when`(newsRepository.getNewsList()).thenThrow(RuntimeException("Api error"))
         viewModel.loadNewsList()
         delay(50)
@@ -83,7 +83,7 @@ class NewsViewModelTest : KoinTest {
     }
 
     @Test
-    fun testApiFetchSuccess() = runBlocking {
+    fun testLoadNewsListSuccess() = runBlocking {
         `when`(newsRepository.getNewsList()).thenReturn(emptyList())
         viewModel.loadNewsList()
         delay(50)
