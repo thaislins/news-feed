@@ -14,7 +14,7 @@
         android:name="com.thaislins.newsfeed.app.NewsFeedApp"
         android:theme="@style/Theme.Newsfeed">
         <activity
-            android:name=".modules.news.view.MainActivity"
+            android:name=".modules.news.view.NewsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

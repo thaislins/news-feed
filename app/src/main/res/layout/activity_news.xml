@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_gray"
     android:orientation="vertical"
-    tools:context=".modules.news.view.MainActivity">
+    tools:context=".modules.news.view.NewsActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"

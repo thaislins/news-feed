@@ -9,25 +9,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thaislins.newsfeed.R
-import com.thaislins.newsfeed.databinding.ActivityMainBinding
+import com.thaislins.newsfeed.databinding.ActivityNewsBinding
 import com.thaislins.newsfeed.modules.news.view.adapter.NewsAdapter
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsResource
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsViewModel
 import com.thaislins.newsfeed.utils.CheckNetworkConnection
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class NewsActivity : AppCompatActivity() {
 
     private val newsViewModel: NewsViewModel by viewModel()
     private lateinit var checkNetworkConnection: CheckNetworkConnection
     private lateinit var dialog: AlertDialog
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityNewsBinding
     private var selectedFilterTypeItem: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.rvNews.layoutManager = LinearLayoutManager(this)
 
