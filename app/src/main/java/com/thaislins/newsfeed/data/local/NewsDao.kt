@@ -12,6 +12,6 @@ abstract class NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertNews(entity: News)
 
-    @Query("SELECT * FROM news")
-    abstract fun getAll(): List<News>
+    @Query("SELECT * FROM news ORDER BY updatedAt DESC")
+    abstract fun getAll(): List<News>?
 }
