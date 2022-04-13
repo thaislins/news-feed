@@ -1,8 +1,9 @@
 package com.thaislins.newsfeed.modules.news.model
 
+import androidx.room.ColumnInfo
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class NewsTypeAttribute{
-    val imageLarge: String = ""
-}
+data class NewsTypeAttribute(
+    @ColumnInfo(name = "imageLarge") val imageLarge: String = ""
+)
