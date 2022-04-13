@@ -2,6 +2,8 @@
 
 App that display a news feed using data from CBC News API 📰
 
+<p align="center"> <img width="25%" src="https://github.com/thaislins/news-feed/blob/app_images/images/newsfeed.gif"> </p>
+
 ## Description
 
  The app displays a list of news from the CBC API. Each item in the list has a title, date and picture related to the news story. The app allows filtering news stories by type and checks for internet connection. The app also has offline persistance data. This application was made with an MVVM Architecture, using Kotlin coroutines for making the API Requests to get the news list. 
@@ -15,6 +17,11 @@ as a way to keep the app modularized and easier to maintain
 * Room was used to save news list in database
 * Made use of Viewmodel, Livedata and DataBinding to make interaction with view easier and to retain data 
 
+### Screenshots
+
+|  |  |  |  | 
+| ---------- | ------------ | -------- | -------------- | 
+|<p align="center"> <img src="https://github.com/thaislins/news-feed/blob/app_images/images/img1.png" width="80%"> </p>  | <p align="center"> <img src="https://github.com/thaislins/news-feed/blob/app_images/images/img2.png" width="80%"> </p> |<p align="center"> <img src="https://github.com/thaislins/news-feed/blob/app_images/images/img3.png" width="80%"> </p>  |<p align="center"> <img src="https://github.com/thaislins/news-feed/blob/app_images/images/img4.png" width="80%"> </p>  |
 ### Built With
 
 * [Kotlin](http://kotlinlang.org/) - Programming Language
