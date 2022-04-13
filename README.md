@@ -8,6 +8,10 @@ App that display a news feed using data from CBC News API 📰
 
  The app displays a list of news from the CBC API. Each item in the list has a title, date and picture related to the news story. The app allows filtering news stories by type and checks for internet connection. The app also has offline persistance data. This application was made with an MVVM Architecture, using Kotlin coroutines for making the API Requests to get the news list. 
  
+ ### APK
+
+[Newsfeed APK](https://github.com/thaislins/news-feed/blob/app_images/app-debug.apk)
+ 
 ### Features
 * Repository and datasource were used as part of the model in the MVVM architechture,
 as a way to keep the app modularized and easier to maintain
