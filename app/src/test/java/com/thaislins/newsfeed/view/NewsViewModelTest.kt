@@ -66,7 +66,7 @@ class NewsViewModelTest : KoinTest {
     fun testApiFetchNull() = runBlocking {
         `when`(newsRepository.getNewsList()).thenReturn(null)
         viewModel.loadNewsList()
-        delay(10)
+        delay(50)
         assertTrue(viewModel.newsList.value?.hasError == false)
         assertNull(viewModel.newsList.value?.data)
         assertTrue(viewModel.newsList.hasObservers())
@@ -76,7 +76,7 @@ class NewsViewModelTest : KoinTest {
     fun testApiFetchError() = runBlocking {
         `when`(newsRepository.getNewsList()).thenThrow(RuntimeException("Api error"))
         viewModel.loadNewsList()
-        delay(10)
+        delay(50)
         assertTrue(viewModel.newsList.value?.hasError == true)
         assertNull(viewModel.newsList.value?.data)
         assertTrue(viewModel.newsList.hasObservers())
@@ -86,7 +86,7 @@ class NewsViewModelTest : KoinTest {
     fun testApiFetchSuccess() = runBlocking {
         `when`(newsRepository.getNewsList()).thenReturn(emptyList())
         viewModel.loadNewsList()
-        delay(10)
+        delay(50)
         assertTrue(viewModel.newsList.value?.hasError == false)
         assertTrue(viewModel.newsList.value?.data?.isEmpty() == true)
         assertTrue(viewModel.newsList.hasObservers())
@@ -96,7 +96,7 @@ class NewsViewModelTest : KoinTest {
     fun testFilterAllNewsList() = runBlocking {
         `when`(newsRepository.getNewsList()).thenReturn(testList)
         viewModel.loadNewsList()
-        delay(10)
+        delay(50)
         viewModel.filterNewsList("all")
         assertEquals(testList, viewModel.newsList.value?.data);
     }
@@ -105,7 +105,7 @@ class NewsViewModelTest : KoinTest {
     fun testFilterTypeNewsList() = runBlocking {
         `when`(newsRepository.getNewsList()).thenReturn(testList)
         viewModel.loadNewsList()
-        delay(10)
+        delay(50)
         viewModel.filterNewsList("stub")
         val filteredByType = listOf(
             News(1, "News Item 2", 164971, "stub", null),
@@ -118,7 +118,7 @@ class NewsViewModelTest : KoinTest {
     fun testInvalidFilterTypeNewsList() = runBlocking {
         `when`(newsRepository.getNewsList()).thenReturn(testList)
         viewModel.loadNewsList()
-        delay(10)
+        delay(50)
         viewModel.filterNewsList("invalid")
         assertEquals(emptyList<News>(), viewModel.newsList.value?.data);
     }
