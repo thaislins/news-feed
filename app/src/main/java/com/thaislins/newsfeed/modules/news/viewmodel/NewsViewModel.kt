@@ -24,12 +24,14 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
 
     fun loadNewsList() {
         viewModelScope.launch(Dispatchers.IO) {
+            var newsResource: NewsResource?
             try {
-                _originalNewsList.postValue(NewsResource(data = repository.getNewsList(), hasError = false))
+                newsResource = NewsResource(data = repository.getNewsList(), hasError = false)
             } catch (ex: Exception) {
-                _originalNewsList.postValue(NewsResource(data = null, hasError = true))
+                newsResource = NewsResource(data = null, hasError = true)
             }
-            _filteredNewsList.postValue(_originalNewsList.value)
+            _originalNewsList.postValue(newsResource)
+            _filteredNewsList.postValue(newsResource)
         }
     }
 

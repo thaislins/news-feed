@@ -18,7 +18,9 @@ class NewsRepository(
             return localDataSource.getNewsList()
         }
 
-        remoteData?.let { localDataSource.saveNews(it) }
+        if (remoteData?.isNotEmpty() == true) {
+            localDataSource.saveNews(remoteData)
+        }
         return remoteData
     }
 }
