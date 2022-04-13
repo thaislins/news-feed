@@ -1,7 +1,8 @@
 package com.thaislins.newsfeed.app
 
 import android.app.Application
-import com.thaislins.newsfeed.di.appModule
+import com.thaislins.newsfeed.di.apiModule
+import com.thaislins.newsfeed.di.newsDBModule
 import com.thaislins.newsfeed.di.repoModule
 import com.thaislins.newsfeed.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -12,7 +13,7 @@ class NewsFeedApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@NewsFeedApp)
-            modules(listOf(appModule, repoModule, viewModelModule))
+            modules(listOf(apiModule, newsDBModule, repoModule, viewModelModule))
         }
     }
 }

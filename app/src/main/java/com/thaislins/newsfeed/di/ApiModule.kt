@@ -8,7 +8,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
-val appModule = module {
+val apiModule = module {
     single { provideLoggingInterceptor() }
     single { provideRetrofit(get(), BASE_URL) }
     single { provideNewsService(get()) }
