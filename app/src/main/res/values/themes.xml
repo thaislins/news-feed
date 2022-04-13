@@ -14,4 +14,14 @@
         <item name="android:colorAccent">?attr/colorSecondary</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryVariant</item>
+        <item name="colorAccent">?attr/colorSecondary</item>
+        <item name="android:statusBarColor">?attr/colorSecondary</item>
+    </style>
 </resources>
