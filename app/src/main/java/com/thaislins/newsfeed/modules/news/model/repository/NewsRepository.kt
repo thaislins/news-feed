@@ -1,11 +1,24 @@
 package com.thaislins.newsfeed.modules.news.model.repository
 
 import com.thaislins.newsfeed.modules.news.model.News
-import com.thaislins.newsfeed.data.remote.NewsService
+import com.thaislins.newsfeed.modules.news.model.datasource.NewsDataSource
+import com.thaislins.newsfeed.modules.news.model.datasource.NewsDataSourceLocal
+import com.thaislins.newsfeed.modules.news.model.datasource.NewsDataSourceRemote
 
-class NewsRepository(private val newsService: NewsService) {
+class NewsRepository(
+    private val remoteDataSource: NewsDataSourceRemote,
+    private val localDataSource: NewsDataSourceLocal
+) : NewsDataSource {
 
-    suspend fun getNewsList(): List<News>? {
-        return newsService.getNewsList()
+    override suspend fun getNewsList(): List<News>? {
+        val remoteData: List<News>?
+        try {
+            remoteData = remoteDataSource.getNewsList()
+        } catch (ex: Exception) {
+            return localDataSource.getNewsList()
+        }
+
+        remoteData?.let { localDataSource.saveNews(it) }
+        return remoteData
     }
 }

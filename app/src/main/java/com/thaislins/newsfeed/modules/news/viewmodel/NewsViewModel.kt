@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thaislins.newsfeed.modules.news.model.News
 import com.thaislins.newsfeed.modules.news.model.repository.NewsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
@@ -22,13 +23,13 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
 
 
     fun loadNewsList() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                _originalNewsList.value = NewsResource(data = repository.getNewsList(), hasError = false)
+                _originalNewsList.postValue(NewsResource(data = repository.getNewsList(), hasError = false))
             } catch (ex: Exception) {
-                _originalNewsList.value = NewsResource(data = null, hasError = true)
+                _originalNewsList.postValue(NewsResource(data = null, hasError = true))
             }
-            _filteredNewsList.value = _originalNewsList.value
+            _filteredNewsList.postValue(_originalNewsList.value)
         }
     }
 
