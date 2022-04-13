@@ -6,7 +6,6 @@ import com.thaislins.newsfeed.modules.news.model.News
 import com.thaislins.newsfeed.modules.news.model.repository.NewsRepository
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsResource
 import com.thaislins.newsfeed.modules.news.viewmodel.NewsViewModel
-import com.thaislins.newsfeed.service.NewsService
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain

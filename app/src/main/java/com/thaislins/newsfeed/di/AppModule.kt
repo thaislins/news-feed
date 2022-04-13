@@ -1,7 +1,7 @@
 package com.thaislins.newsfeed.di
 
 import com.thaislins.newsfeed.BuildConfig.BASE_URL
-import com.thaislins.newsfeed.service.NewsService
+import com.thaislins.newsfeed.data.remote.NewsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
