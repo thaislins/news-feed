@@ -2,7 +2,7 @@
 
 App that display a news feed using data from CBC News API 📰
 
-<p align="center"> <img width="50%" src="https://github.com/thaislins/news-feed/blob/app_images/images/newsfeed.gif"> </p>
+<p align="center"> <img width="55%" src="https://github.com/thaislins/news-feed/blob/app_images/images/newsfeed.gif"> </p>
 
 ## Description
 
